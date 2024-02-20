@@ -92,10 +92,22 @@ class _HabitationDetailsState extends State<HabitationDetails> {
             (option) => Container(
           margin: EdgeInsets.all(2.0),
           padding: EdgeInsets.only(left: 15.0),
+
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+
             children: [
 
+              Row(
+                children: [
+                  Text("Inclus"),
+                  Divider(
+                    thickness: 20,
+                    color: Colors.black,
+                  ),
+                ],
+              ),
 
               Text(
                 option.libelle,

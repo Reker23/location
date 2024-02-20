@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:location/models/habitation.dart';
 import 'package:location/share/location_text_style.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Mes locations'),
+
     );
   }
 }
@@ -33,25 +35,39 @@ class MyHomePage extends StatelessWidget {
   MyHomePage({required this.title, Key? key}) : super(key: key) {
     _habitations = service.getHabitationsTop10();
     _typeHabitats = service.getTypeHabitats();
+
   }
 
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: Text(title),
-    ),
-    body: Center(
-      child: Column(
-        children: [
-          SizedBox(height: 30),
-          _buildTypeHabitat(context),
-        ],
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
       ),
-    ),
-  );
-}
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(height: 30),
+            _buildTypeHabitat(context),
+            SizedBox(height: 20),
+            _buildHabitationsList(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _buildHabitationsList(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: _habitations.length,
+        itemBuilder: (context, index) {
+          return _buildRow(_habitations[index], context);
+        },
+      ),
+    );
+  }
 
 _buildTypeHabitat(BuildContext context) {
   return Container(
@@ -108,36 +124,53 @@ _buildHabitat(BuildContext context, TypeHabitat typeHabitat) {
   );
 }
 
-_buildRow(Habitation habitation, BuildContext context) {
-  return Container(
-    width: 240,
-    margin: EdgeInsets.all(4.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20.0),
-          child: Image.asset(
-            'assets/images/locations/${habitation.image}',
-            fit: BoxFit.fitWidth,
+  _buildRow(Habitation habitation, BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(8.0), // Add margins
+      padding: EdgeInsets.all(8.0), // Add padding for content separation
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0), // Rounded corners for the container
+        border: Border.all(color: Colors.grey), // Add border for visual separation
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10.0), // Rounded corners for the image
+            child: Image.asset(
+              'assets/images/locations/${habitation.image}',
+              fit: BoxFit.fitWidth,
+              width: double.infinity, // Make the image take the full width
+            ),
           ),
-        ),
-
-        Text(
+          SizedBox(height: 8.0), // Add spacing between image and text
+          Text(
             habitation.libelle,
-            style: LocationTextStyle.regularGreyTextStyle),
-        Row(
-          children: [
-            Icon(Icons.location_on_outlined),
-            Text(
-              habitation.adresse, style: LocationTextStyle.regularGreyTextStyle,),
-          ],
-        ),
-        Text(habitation.prixmois.toString(),
-          style: LocationTextStyle.boldTextStyle,),
-      ],
-    ),
-  );
-}
+            style: LocationTextStyle.regularGreyTextStyle.copyWith(fontSize: 16.0),
+            textAlign: TextAlign.left, // Align text to the left
+          ),
+          SizedBox(height: 4.0), // Add spacing between text and icon
+          Row(
+            children: [
+              const Icon(Icons.location_on_outlined),
+              SizedBox(width: 4.0), // Add spacing between icon and text
+              Text(
+                habitation.adresse,
+                style: LocationTextStyle.regularGreyTextStyle.copyWith(fontSize: 14.0),
+                textAlign: TextAlign.left, // Align text to the left
+              ),
+            ],
+          ),
+          SizedBox(height: 4.0), // Add spacing between text and price
+          Text(
+            '${habitation.prixmois.toString()}€', // Format the amount in euros
+            style: LocationTextStyle.boldTextStyle.copyWith(fontSize: 18.0),
+            textAlign: TextAlign.left, // Align text to the left
+          ),
+        ],
+      ),
+    );
+  }
+
 
 }
