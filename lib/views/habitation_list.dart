@@ -30,7 +30,6 @@ class HabitationList extends StatelessWidget {
           itemCount: _habitations.length,
           itemBuilder: (context, index) =>
             _buildRow(_habitations[index], context),
-          itemExtent: 285,
         ),
       ),
     );
@@ -71,7 +70,6 @@ _buildRow(Habitation habitation, BuildContext context) {
   );
 }
 
-
 _buildDetails(Habitation habitation, BuildContext context) {
   var format = NumberFormat("### €");
   return Container(
@@ -86,12 +84,26 @@ _buildDetails(Habitation habitation, BuildContext context) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            title: Text(
-              habitation.libelle,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18.0,
-              ),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  habitation.libelle,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                  ),
+                ),
+                Text(
+                  format.format(habitation.prixmois),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Roboto',
+                    fontSize: 16,
+                  ),
+                ),
+              ],
             ),
             subtitle: Text(
               habitation.adresse,
@@ -101,59 +113,7 @@ _buildDetails(Habitation habitation, BuildContext context) {
             ),
           ),
           SizedBox(height: 8.0),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 3,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      format.format(habitation.prixmois),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Roboto',
-                        fontSize: 22,
-                      ),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      "${habitation.chambres} chambre(s) - ${habitation.salleBains} salle(s) de bain",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                      ),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      "Surface: ${habitation.superficie} m²",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                      ),
-                    ),
-                    SizedBox(height: 8.0),
-                    HabitationFeaturesWidget(habitation),
-                  ],
-                ),
-              ),
-              SizedBox(width: 8.0),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  height: 150,
-                  width: MediaQuery.of(context).size.width,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Image.asset(
-                      'assets/images/locations/${habitation.image}',
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          HabitationFeaturesWidget(habitation),
         ],
       ),
     ),

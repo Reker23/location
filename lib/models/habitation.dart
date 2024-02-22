@@ -120,9 +120,9 @@ class OptionPayante extends Option {
   OptionPayante.fromJson(Map<String, dynamic> json)
       : prix = json['prix'] is double ? json['prix'] : double.tryParse(json['prix'].toString()) ?? 0.0,
         super(
-        json['id'] is int ? json['id'] : int.tryParse(json['id'].toString()) ?? 0,
-        json['libelle'] ?? "",
-        description: json['description'] ?? "",
+        json['optionpayante']['id'] is int ? json['optionpayante']['id'] : int.tryParse(json['optionpayante']['id'].toString()) ?? 0,
+        json['optionpayante']['libelle'] ?? "",
+        description: json['optionpayante']['description'] ?? "",
       );
 }
 

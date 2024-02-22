@@ -92,40 +92,35 @@ class _HabitationDetailsState extends State<HabitationDetails> {
             (option) => Container(
           margin: EdgeInsets.all(2.0),
           padding: EdgeInsets.only(left: 15.0),
-
-
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-
             children: [
-
-              Row(
-                children: [
-                  Text("Inclus"),
-                  Divider(
-                    thickness: 20,
-                    color: Colors.black,
-                  ),
-                ],
-              ),
+              if (widget._habitation.options.indexOf(option) == 0)
+                Row(
+                  children: [
+                    Text("Inclus"),
+                  ],
+                ),
 
               Text(
                 option.libelle,
                 style: LocationTextStyle.regularGreyTextStyle,
               ),
+              Text(
+                option.description,
+                style: LocationTextStyle.regularGreyTextStyle,
+              ),
 
-                Text(
-                  option.description,
-                  style: LocationTextStyle.regularGreyTextStyle,
-                ),
 
             ],
+
+
+
           ),
         ),
       ).toList(),
     );
   }
-
 
   _buildOptionsPayantes() {
     var width = (MediaQuery.of(context).size.width / 2) - 15;
@@ -139,7 +134,16 @@ class _HabitationDetailsState extends State<HabitationDetails> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
+              if (widget._habitation.optionpayantes.indexOf(optionPayante) == 0)
+                Row(
+                  children: [
+                    Text("Options"),
+                    Divider(
+                      thickness: 10,
+                      color: Colors.black,
+                    ),
+                  ],
+                ),
               Text(
                 optionPayante.libelle,
                 style: LocationTextStyle.regularGreyTextStyle,
@@ -154,6 +158,5 @@ class _HabitationDetailsState extends State<HabitationDetails> {
       ).toList(),
     );
   }
-
 
 }
